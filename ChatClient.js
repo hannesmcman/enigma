@@ -11,25 +11,25 @@ export default class ChatClient extends React.Component {
     this.state = {
       messages: []
     };
-    this.pusher = new Pusher(pusherConfig.key, pusherConfig); // (1)
+    this.pusher = new Pusher(pusherConfig.key, pusherConfig);
 
-    this.chatChannel = this.pusher.subscribe('chat_channel'); // (2)
-    this.chatChannel.bind('pusher:subscription_succeeded', () => { // (3)
-      this.chatChannel.bind('join', (data) => { // (4)
+    this.chatChannel = this.pusher.subscribe('chat_channel');
+    this.chatChannel.bind('pusher:subscription_succeeded', () => {
+      this.chatChannel.bind('join', (data) => {
         this.handleJoin(data.name);
       });
-      this.chatChannel.bind('part', (data) => { // (5)
+      this.chatChannel.bind('part', (data) => {
         this.handlePart(data.name);
       });
-      this.chatChannel.bind('message', (data) => { // (6)
+      this.chatChannel.bind('message', (data) => {
         this.handleMessage(data.name, data.message);
       });
     });
 
-    this.handleSendMessage = this.onSendMessage.bind(this); // (9)
+    this.handleSendMessage = this.onSendMessage.bind(this);
   }
 
-  handleJoin(name) { // (4)
+  handleJoin(name) {
     const messages = this.state.messages.slice();
     messages.push({action: 'join', name: name});
     this.setState({
@@ -37,7 +37,7 @@ export default class ChatClient extends React.Component {
     });
   }
 
-  handlePart(name) { // (5)
+  handlePart(name) {
     const messages = this.state.messages.slice();
     messages.push({action: 'part', name: name});
     this.setState({
@@ -45,7 +45,7 @@ export default class ChatClient extends React.Component {
     });
   }
 
-  handleMessage(name, message) { // (6)
+  handleMessage(name, message) {
     const messages = this.state.messages.slice();
     messages.push({action: 'message', name: name, message: message});
     this.setState({
@@ -53,19 +53,19 @@ export default class ChatClient extends React.Component {
     });
   }
 
-  componentDidMount() { // (7)
+  componentDidMount() {
     fetch(`${pusherConfig.restServer}/users/${this.props.name}`, {
       method: 'PUT'
     });
   }
 
-  componentWillUnmount() { // (8)
+  componentWillUnmount() {
     fetch(`${pusherConfig.restServer}/users/${this.props.name}`, {
       method: 'DELETE'
     });
   }
 
-  onSendMessage(text) { // (9)
+  onSendMessage(text) {
     const payload = {
         message: text
     };
