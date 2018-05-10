@@ -1,17 +1,20 @@
-import React from 'react';
-import Login from './Login';
-import ChatClient from './ChatClient';
+import React from "react";
+import Login from "./Login";
+import ChatClient from "./ChatClient";
 
-export default class App extends React.Component { // (1)
+export default class App extends React.Component {
+  // (1)
   constructor(props) {
     super(props); // (2)
     this.handleSubmitName = this.onSubmitName.bind(this); // (3)
-    this.state = { // (4)
+    this.state = {
+      // (4)
       hasName: false
     };
   }
 
-  onSubmitName(e) { // (5)
+  onSubmitName(e) {
+    // (5)
     const name = e.nativeEvent.text;
     this.setState({
       name,
@@ -21,13 +24,9 @@ export default class App extends React.Component { // (1)
 
   render() {
     if (this.state.hasName) {
-      return (
-        <ChatClient name={ this.state.name } />
-      );
+      return <ChatClient name={this.state.name} />;
     } else {
-      return (
-        <Login onSubmitName={ this.handleSubmitName } />
-      );
+      return <Login onSubmitName={this.handleSubmitName} />;
     }
   }
 }

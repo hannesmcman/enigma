@@ -1,9 +1,9 @@
-import React from 'react';
-import Pusher from 'pusher-js/react-native';
-import { StyleSheet, Text, KeyboardAvoidingView } from 'react-native';
-import ChatView from './ChatView';
+import React from "react";
+import Pusher from "pusher-js/react-native";
+import { StyleSheet, Text, KeyboardAvoidingView } from "react-native";
+import ChatView from "./ChatView";
 
-import pusherConfig from './pusher.json';
+import pusherConfig from "./pusher.json";
 
 export default class ChatClient extends React.Component {
   constructor(props) {
@@ -13,15 +13,15 @@ export default class ChatClient extends React.Component {
     };
     this.pusher = new Pusher(pusherConfig.key, pusherConfig);
 
-    this.chatChannel = this.pusher.subscribe('chat_channel');
-    this.chatChannel.bind('pusher:subscription_succeeded', () => {
-      this.chatChannel.bind('join', (data) => {
+    this.chatChannel = this.pusher.subscribe("chat_channel");
+    this.chatChannel.bind("pusher:subscription_succeeded", () => {
+      this.chatChannel.bind("join", data => {
         this.handleJoin(data.name);
       });
-      this.chatChannel.bind('part', (data) => {
+      this.chatChannel.bind("part", data => {
         this.handlePart(data.name);
       });
-      this.chatChannel.bind('message', (data) => {
+      this.chatChannel.bind("message", data => {
         this.handleMessage(data.name, data.message);
       });
     });
@@ -31,7 +31,7 @@ export default class ChatClient extends React.Component {
 
   handleJoin(name) {
     const messages = this.state.messages.slice();
-    messages.push({action: 'join', name: name});
+    messages.push({ action: "join", name: name });
     this.setState({
       messages: messages
     });
@@ -39,7 +39,7 @@ export default class ChatClient extends React.Component {
 
   handlePart(name) {
     const messages = this.state.messages.slice();
-    messages.push({action: 'part', name: name});
+    messages.push({ action: "part", name: name });
     this.setState({
       messages: messages
     });
@@ -47,7 +47,7 @@ export default class ChatClient extends React.Component {
 
   handleMessage(name, message) {
     const messages = this.state.messages.slice();
-    messages.push({action: 'message', name: name, message: message});
+    messages.push({ action: "message", name: name, message: message });
     this.setState({
       messages: messages
     });
@@ -55,24 +55,24 @@ export default class ChatClient extends React.Component {
 
   componentDidMount() {
     fetch(`${pusherConfig.restServer}/users/${this.props.name}`, {
-      method: 'PUT'
+      method: "PUT"
     });
   }
 
   componentWillUnmount() {
     fetch(`${pusherConfig.restServer}/users/${this.props.name}`, {
-      method: 'DELETE'
+      method: "DELETE"
     });
   }
 
   onSendMessage(text) {
     const payload = {
-        message: text
+      message: text
     };
     fetch(`${pusherConfig.restServer}/users/${this.props.name}/messages`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(payload)
     });
@@ -82,7 +82,7 @@ export default class ChatClient extends React.Component {
     const messages = this.state.messages;
 
     return (
-        <ChatView messages={ messages } onSendMessage={ this.handleSendMessage } />
+      <ChatView messages={messages} onSendMessage={this.handleSendMessage} />
     );
   }
 }
