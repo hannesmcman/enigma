@@ -29,17 +29,16 @@
 //     }
 //   }
 // }
-import React from 'react';
-import { AppRegistry } from 'react-native';
-import { Provider } from 'react-redux';
-import { makeStore, initRedux } from './src/flux';
-import AppWithNavigationState from './src/navigation';
+import React from "react";
+import { AppRegistry } from "react-native";
+import { Provider } from "react-redux";
+import { makeStore, initRedux } from "./src/flux";
+import AppWithNavigationState from "./src/navigation";
 
-const store = makeStore()
+const store = makeStore();
 // initRedux(store)
 
 export default class App extends React.Component {
-
   render() {
     return (
       <Provider store={store}>

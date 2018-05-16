@@ -3,23 +3,22 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  KeyboardAvoidingView,
+  KeyboardAvoidingView
 } from "react-native";
-import Button from 'apsl-react-native-button'
-import {startSession} from '../flux/reducers/app'
-import {connect} from 'react-redux'
+import Button from "apsl-react-native-button";
+import { startSession } from "../flux/reducers/app";
+import { connect } from "react-redux";
 
 class LoginView extends React.Component {
-
   static navigationOptions = {
-    title: 'Login',
-  }
+    title: "Login"
+  };
 
-  login = (e) => {
+  login = e => {
     const name = e.nativeEvent.text;
-    console.log(name)
-    this.props.startSession(name)
-  }
+    console.log(name);
+    this.props.startSession(name);
+  };
 
   render() {
     return (
@@ -36,10 +35,7 @@ class LoginView extends React.Component {
           style={styles.username}
           onSubmitEditing={this.login}
         />
-        <Button
-          onPress={this.login}
-          style={styles.button}
-        >
+        <Button onPress={this.login} style={styles.button}>
           <Text style={styles.buttonText}>Enter the Chat Room</Text>
         </Button>
       </KeyboardAvoidingView>
@@ -48,30 +44,29 @@ class LoginView extends React.Component {
 }
 
 function mapState(state) {
-	return {
-		username: state.app ? state.app.username : '',
-	}
+  return {
+    username: state.app ? state.app.username : ""
+  };
 }
 
 function mapDispatch(dispatch) {
-	return {
-		startSession: (username) =>
-			dispatch(startSession(username)),
-	}
+  return {
+    startSession: username => dispatch(startSession(username))
+  };
 }
 
-export const Login = connect(mapState, mapDispatch)(LoginView)
+export const Login = connect(mapState, mapDispatch)(LoginView);
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: 'blue',
+    backgroundColor: "blue",
     width: 200,
     height: 50,
     marginTop: 30,
-    alignSelf: 'center',
+    alignSelf: "center"
   },
   buttonText: {
-    color: 'white',
+    color: "white"
   },
   container: {
     flex: 1,
@@ -86,6 +81,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: 300,
     height: 50,
-    fontSize: 20,
-  },
+    fontSize: 20
+  }
 });
