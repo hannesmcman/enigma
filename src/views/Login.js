@@ -5,7 +5,6 @@ import {
   TextInput,
   KeyboardAvoidingView
 } from "react-native";
-import Button from "apsl-react-native-button";
 import { startSession } from "../flux/reducers/app";
 import { connect } from "react-redux";
 
@@ -18,6 +17,7 @@ class LoginView extends React.Component {
     const name = e.nativeEvent.text;
     console.log(name);
     this.props.startSession(name);
+    this.props.navigation.navigate("ChatClient");
   };
 
   render() {
@@ -35,9 +35,6 @@ class LoginView extends React.Component {
           style={styles.username}
           onSubmitEditing={this.login}
         />
-        <Button onPress={this.login} style={styles.button}>
-          <Text style={styles.buttonText}>Enter the Chat Room</Text>
-        </Button>
       </KeyboardAvoidingView>
     );
   }
@@ -45,29 +42,19 @@ class LoginView extends React.Component {
 
 function mapState(state) {
   return {
-    username: state.app ? state.app.username : ""
+    name: state.app ? state.app.name : ""
   };
 }
 
 function mapDispatch(dispatch) {
   return {
-    startSession: username => dispatch(startSession(username))
+    startSession: name => dispatch(startSession(name))
   };
 }
 
 export const Login = connect(mapState, mapDispatch)(LoginView);
 
 const styles = StyleSheet.create({
-  button: {
-    backgroundColor: "blue",
-    width: 200,
-    height: 50,
-    marginTop: 30,
-    alignSelf: "center"
-  },
-  buttonText: {
-    color: "white"
-  },
   container: {
     flex: 1,
     backgroundColor: "#fff",

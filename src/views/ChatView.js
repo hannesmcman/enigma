@@ -7,40 +7,44 @@ import {
   KeyboardAvoidingView
 } from "react-native";
 import { getStatusBarHeight } from "react-native-status-bar-height";
+import { Item, Input, Container, Content } from "native-base";
 
 export class ChatView extends React.Component {
   constructor(props) {
     super(props);
-
-    this.handleSendMessage = this.onSendMessage.bind(this);
   }
 
-  onSendMessage(e) {
+  onSendMessage = e => {
     // (1)
     this.props.onSendMessage(e.nativeEvent.text);
-    this.refs.input.clear();
-  }
+    // this.refs.input.clear();
+  };
+
+  _keyExtractor = (item, index) => index.toString();
 
   render() {
     // (2)
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
-        <FlatList
-          data={this.props.messages}
-          renderItem={this.renderItem}
-          styles={styles.messages}
-        />
-        <TextInput
-          autoFocus
-          keyboardType="default"
-          returnKeyType="done"
-          enablesReturnKeyAutomatically
-          style={styles.input}
-          blurOnSubmit={false}
-          onSubmitEditing={this.handleSendMessage}
-          ref="input"
-        />
-      </KeyboardAvoidingView>
+      <Container>
+        <Content>
+          <FlatList
+            data={this.props.messages}
+            keyExtractor={this._keyExtractor}
+            renderItem={this.renderItem}
+            styles={styles.messages}
+          />
+
+          <Item rounded style={styles.input}>
+            <Input
+              onSubmitEditing={this.onSendMessage}
+              placeholder="I love algorithms"
+              ref={ref => {
+                this.refs.input = ref;
+              }}
+            />
+          </Item>
+        </Content>
+      </Container>
     );
   }
 
@@ -75,7 +79,8 @@ const styles = StyleSheet.create({
     alignSelf: "stretch"
   },
   input: {
-    alignSelf: "stretch"
+    alignSelf: "flex-end",
+    backgroundColor: "gray"
   },
   joinPart: {
     fontStyle: "italic"
