@@ -1,8 +1,0 @@
-{
-    "appId":"521235",
-    "key":"7aa234c389ac17b9c85d",
-    "secret":"7ebffbfdd246b2aca448",
-    "cluster":"us2",
-    "encrypted":true,
-    "restServer":"http://130.71.228.89:4000"
-}
