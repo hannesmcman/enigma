@@ -3,9 +3,9 @@ import Pusher from "pusher-js/react-native";
 import { StyleSheet, Text, KeyboardAvoidingView } from "react-native";
 import ChatView from "./ChatView";
 
-import pusherConfig from "./pusher.json";
+import pusherConfig from "../../pusher.json";
 
-export default class ChatClient extends React.Component {
+export class ChatClient extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

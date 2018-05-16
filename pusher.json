@@ -4,5 +4,5 @@
     "secret":"7ebffbfdd246b2aca448",
     "cluster":"us2",
     "encrypted":true,
-    "restServer":"http://130.71.228.165:4000"
+    "restServer":"http://130.71.228.89:4000"
 }

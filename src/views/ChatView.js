@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { getStatusBarHeight } from "react-native-status-bar-height";
 
-export default class ChatView extends React.Component {
+export class ChatView extends React.Component {
   constructor(props) {
     super(props);
 

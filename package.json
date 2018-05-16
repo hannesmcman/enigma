@@ -8,11 +8,18 @@
     "prettier": "prettier --write *.js"
   },
   "dependencies": {
+    "apsl-react-native-button": "^3.1.1",
     "pusher-js": "4.2.2",
     "react": "16.3.1",
     "react-native": "0.55.3",
     "react-native-status-bar-height": "2.0.0",
-    "react-navigation": "2.0.0-rc.9"
+    "react-navigation": "^2.0.1",
+    "react-navigation-redux-helpers": "^1.0.7",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0",
+    "redux-logger": "^3.0.6",
+    "redux-promise": "^0.6.0",
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "babel-jest": "22.4.3",
