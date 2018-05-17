@@ -2365,7 +2365,7 @@ glob@^7.0.3, glob@^7.0.5, glob@^7.1.1, glob@^7.1.2:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-global@^4.3.0:
+global@^4.3.0, global@^4.3.2:
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/global/-/global-4.3.2.tgz#e76989268a6c74c38908b1305b10fc0e394e9d0f"
   dependencies:
@@ -2601,6 +2601,10 @@ invariant@^2.0.0, invariant@^2.2.0, invariant@^2.2.2:
 invert-kv@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/invert-kv/-/invert-kv-1.0.0.tgz#104a8e4aaca6d3d8cd157a8ef8bfab2d7a3ffdb6"
+
+ios-deploy@^1.9.2:
+  version "1.9.2"
+  resolved "https://registry.yarnpkg.com/ios-deploy/-/ios-deploy-1.9.2.tgz#c2f4c46b06db4771939b29f980c7c1a8906b47a2"
 
 is-accessor-descriptor@^0.1.6:
   version "0.1.6"
@@ -4254,6 +4258,12 @@ pusher-js@4.2.2:
     faye-websocket "0.9.4"
     xmlhttprequest "^1.8.0"
 
+pusher@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/pusher/-/pusher-2.0.0.tgz#6b94d65356fa442dc625565f2046f8f75505ce99"
+  dependencies:
+    request "2.85.0"
+
 qs@~6.5.1:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
@@ -4699,7 +4709,7 @@ request-promise-native@^1.0.5:
     stealthy-require "^1.1.0"
     tough-cookie ">=2.3.3"
 
-request@^2.83.0:
+request@2.85.0, request@^2.83.0:
   version "2.85.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.85.0.tgz#5a03615a47c61420b3eb99b7dba204f83603e1fa"
   dependencies:
@@ -4785,9 +4795,9 @@ rimraf@~2.2.6:
   version "2.2.8"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.2.8.tgz#e439be2aaee327321952730f99a8929e4fc50582"
 
-rsa-encryption-js@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/rsa-encryption-js/-/rsa-encryption-js-0.1.0.tgz#e3cf65faa974731d22e0d0cf1806956992bb544f"
+rsa-encryption-js@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/rsa-encryption-js/-/rsa-encryption-js-0.1.1.tgz#e7779c29cc7f15b75de85d4199e390e517d6f6b5"
   dependencies:
     big-integer "^1.6.28"
     lodash "^4.17.10"

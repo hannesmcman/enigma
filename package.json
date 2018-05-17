@@ -9,7 +9,11 @@
   },
   "dependencies": {
     "apsl-react-native-button": "^3.1.1",
+    "global": "^4.3.2",
+    "ios-deploy": "^1.9.2",
+    "lodash": "^4.17.10",
     "native-base": "^2.4.4",
+    "pusher": "^2.0.0",
     "pusher-js": "4.2.2",
     "react": "16.3.1",
     "react-native": "0.55.3",
@@ -22,7 +26,7 @@
     "redux-logger": "^3.0.6",
     "redux-promise": "^0.6.0",
     "redux-thunk": "^2.2.0",
-    "rsa-encryption-js": "^0.1.0"
+    "rsa-encryption-js": "^0.1.1"
   },
   "devDependencies": {
     "babel-jest": "22.4.3",
