@@ -7,35 +7,45 @@ import {
 } from "react-native";
 import { startSession } from "../flux/reducers/app";
 import { connect } from "react-redux";
+import { Button, Input, Container, Item, Content } from "native-base";
 
 class LoginView extends React.Component {
   static navigationOptions = {
     title: "Login"
   };
 
-  login = e => {
-    const name = e.nativeEvent.text;
-    console.log(name);
+  enterRSAForum = () => {
+    const name = this.input._root._lastNativeText;
     this.props.startSession(name);
     this.props.navigation.navigate("ChatClient");
   };
 
+  enterCaesarForum = () => {
+    const name = this.input._root._lastNativeText;
+    this.props.startSession(name);
+    this.props.navigation.navigate("CaesarChatClient");
+  };
+
   render() {
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
-        <TextInput
-          autoCapitalize="none"
-          autoCorrect={false}
-          autoFocus
-          keyboardType="default"
-          maxLength={20}
-          placeholder="Username"
-          returnKeyType="done"
-          enablesReturnKeyAutomatically
-          style={styles.username}
-          onSubmitEditing={this.login}
-        />
-      </KeyboardAvoidingView>
+      <Container>
+        <Content contentContainerStyle={styles.container}>
+          <Item style={styles.inputContainer}>
+            <Input
+              autoCapitalize="none"
+              autoCorrect={false}
+              placeholder="Username"
+              ref={ref => (this.input = ref)}
+            />
+          </Item>
+          <Button primary onPress={this.enterRSAForum} style={styles.button}>
+            <Text> Enter RSA Forum </Text>
+          </Button>
+          <Button success onPress={this.enterCaesarForum} style={styles.button}>
+            <Text> Enter Caesar Forum </Text>
+          </Button>
+        </Content>
+      </Container>
     );
   }
 }
@@ -61,13 +71,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
-  username: {
-    alignSelf: "center",
-    textAlign: "center",
-    borderWidth: 1,
-    borderRadius: 10,
-    width: 300,
-    height: 50,
-    fontSize: 20
+  inputContainer: {
+    width: 300
+  },
+  button: {
+    margin: 10,
+    padding: 10,
+    alignSelf: "center"
   }
 });

@@ -2,7 +2,7 @@ import React from "react";
 import { createStackNavigator } from "react-navigation";
 import { createStore, combineReducers } from "redux";
 import { connect } from "react-redux";
-import { Login, ChatClient } from "./views";
+import { Login, ChatClient, CaesarChatClient } from "./views";
 import {
   createReduxBoundAddListener,
   createReactNavigationReduxMiddleware
@@ -11,7 +11,8 @@ import {
 export const AppNavigator = createStackNavigator(
   {
     Login: { screen: Login },
-    ChatClient: { screen: ChatClient }
+    ChatClient: { screen: ChatClient },
+    CaesarChatClient: { screen: CaesarChatClient }
   },
   {
     initialRouteName: "Login"
