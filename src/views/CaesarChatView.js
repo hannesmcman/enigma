@@ -4,67 +4,33 @@ import {
   Text,
   TextInput,
   FlatList,
-  KeyboardAvoidingView,
-  View,
-  ScrollView
+  KeyboardAvoidingView
 } from "react-native";
-import { getStatusBarHeight } from "react-native-status-bar-height";
-import {
-  Item,
-  Input,
-  Container,
-  Content,
-  Footer,
-  FooterTab
-} from "native-base";
-import { Circle } from "../components/circle";
-import { MessageItem } from "../components/message";
+import { Item, Input } from "native-base";
+import { CaesarMessageItem } from "../components/caesarmessage";
 
-export class ChatView extends React.Component {
+export class CaesarChatView extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      targetUser: null
-    };
+
+    this.handleSendMessage = this.onSendMessage.bind(this);
   }
 
   onSendMessage = e => {
-    if (this.state.targetUser) {
-      this.props.onSendMessage(e.nativeEvent.text, this.state.targetUser);
-      this.input._root.clear();
-    } else {
-      alert("No target user selected");
-    }
-  };
-
-  onInitiateMessage = user => {
-    this.input._root.focus();
-    this.setState(() => ({ targetUser: user }));
+    this.props.onSendMessage(e.nativeEvent.text);
+    this.input._root.clear();
   };
 
   _keyExtractor = (item, index) => index.toString();
 
   render() {
     // (2)
-    const { users } = this.props;
-
-    const userCircles = users.map(user => (
-      <Circle
-        key={user.name}
-        onPress={() => this.onInitiateMessage(user)}
-        text={user.name}
-      />
-    ));
-
     return (
       <KeyboardAvoidingView
         style={styles.container}
         behavior="padding"
         keyboardVerticalOffset={64}
       >
-        <View style={styles.userWindow}>
-          <ScrollView horizontal>{userCircles}</ScrollView>
-        </View>
         <FlatList
           data={this.props.messages}
           keyExtractor={this._keyExtractor}
@@ -93,29 +59,20 @@ export class ChatView extends React.Component {
     } else if (action == "part") {
       return <Text style={styles.joinPart}>{name} has left</Text>;
     } else if (action == "message") {
-      return (
-        <MessageItem
-          message={item.message}
-          name={name}
-          privateKey={this.props.privateKey}
-        />
-      );
+      return <CaesarMessageItem message={item.message} name={name} />;
     }
   };
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: "white"
   },
   content: {
     flex: 1,
     justifyContent: "flex-end",
     alignContent: "flex-end"
-  },
-  chatArea: {
-    flex: 0.8,
-    flexDirection: "column"
   },
   messages: {
     flex: 1,
@@ -131,23 +88,5 @@ const styles = StyleSheet.create({
   },
   joinPart: {
     fontStyle: "italic"
-  },
-  circle: {
-    width: 75,
-    height: 75,
-    borderRadius: 75 / 2,
-    backgroundColor: "#00BCD4",
-    margin: 10,
-    marginRight: 5,
-    justifyContent: "center"
-  },
-  circleText: {
-    textAlign: "center",
-    fontSize: 15
-  },
-  userWindow: {
-    borderBottomWidth: 0.5,
-    borderBottomColor: "gray"
-    // height: 90,
   }
 });

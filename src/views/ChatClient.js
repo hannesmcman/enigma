@@ -9,6 +9,10 @@ import pusherConfig from "../../pusher.json";
 import { encryptRSA } from "rsa-encryption-js";
 import remove from "lodash/remove";
 
+Pusher.logToConsole = true;
+
+const chatRoom = "presence-chat";
+
 class UnconnectedChatClient extends React.Component {
   static navigationOptions = {
     title: "RSA Forum"
@@ -24,21 +28,20 @@ class UnconnectedChatClient extends React.Component {
   }
 
   setUpServer = () => {
-    console.log(JSON.stringify(this.props.RSAkey.public));
-    this.pusher = new Pusher(pusherConfig.key, {
+    const fullConfig = {
       ...pusherConfig,
+      authEndpoint: `${pusherConfig.restServer}/pusher/auth`,
       auth: {
         params: {
           name: this.props.name,
           publicKey: JSON.stringify(this.props.RSAkey.public)
         }
       }
-    });
-    this.chatChannel = this.pusher.subscribe("presence-chat_channel");
-
+    };
+    this.pusher = new Pusher(pusherConfig.key, fullConfig);
+    this.chatChannel = this.pusher.subscribe("presence-chat");
     this.chatChannel.bind("pusher:member_added", member => {
       // for example:
-      console.log("MEMBER ADDED: " + member.info.name);
       const currentMembers = this.state.users;
       const updatedMembers = [...currentMembers, member.info];
       this.setState(() => ({ users: updatedMembers }));
@@ -46,7 +49,6 @@ class UnconnectedChatClient extends React.Component {
 
     this.chatChannel.bind("pusher:member_removed", member => {
       // for example:
-      console.log("MEMBER REMOVED: " + member.info.name);
       let currentMembers = this.state.users;
       remove(currentMembers, user => user.name === member.info.name);
       this.setState(() => ({ users: currentMembers }));
@@ -57,9 +59,7 @@ class UnconnectedChatClient extends React.Component {
     });
 
     this.chatChannel.bind("pusher:subscription_succeeded", () => {
-      console.log("SUBSCRIBED SUCCESSFULLY");
       this.chatChannel.bind("join", data => {
-        console.log("WORKING");
         this.handleJoin(data.name);
       });
       this.chatChannel.bind("part", data => {
@@ -68,19 +68,16 @@ class UnconnectedChatClient extends React.Component {
       this.chatChannel.bind("message", data => {
         this.handleMessage(data.name, data.message);
       });
-      console.log(this.chatChannel);
       let users = [];
       this.chatChannel.members.each(function(member) {
         const userInfo = member.info;
         users = [...users, userInfo];
       });
       this.setState(() => ({ users: users }));
-      console.log(this.state.users);
     });
   };
 
   handleJoin = name => {
-    console.log("JOINED");
     const messages = this.state.messages.slice();
     messages.push({ action: "join", name: name });
     this.setState({
@@ -97,7 +94,6 @@ class UnconnectedChatClient extends React.Component {
   }
 
   handleMessage(name, message) {
-    console.log("message received");
     const messages = this.state.messages.slice();
     messages.push({ action: "message", name: name, message: message });
     this.setState({
@@ -106,7 +102,7 @@ class UnconnectedChatClient extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`${pusherConfig.restServer}/users/${this.props.name}`, {
+    fetch(`${pusherConfig.restServer}/users/${this.props.name}/${chatRoom}`, {
       method: "PUT"
     }).then(() => {
       this.setState(() => ({ loading: true }));
@@ -117,37 +113,35 @@ class UnconnectedChatClient extends React.Component {
   }
 
   componentWillUnmount() {
-    fetch(`${pusherConfig.restServer}/users/${this.props.name}`, {
+    fetch(`${pusherConfig.restServer}/users/${this.props.name}/${chatRoom}`, {
       method: "DELETE"
     });
     this.chatChannel.unbind();
-    this.chatChannel = this.pusher.unsubscribe("presence-chat_channel");
+    this.chatChannel = this.pusher.unsubscribe("presence-chat");
   }
 
   handleSendMessage = (text, targetUser) => {
-    console.log(`Sending message to ${targetUser.name}`);
-    // const key = JSON.parse(targetUser.publicKey)
-    console.log(JSON.stringify(targetUser.publicKey));
     const publicKey = JSON.parse(targetUser.publicKey);
-    console.log(publicKey);
     const encryptedMessage = encryptRSA(text, publicKey);
-    console.log(targetUser.publicKey);
-    console.log(encryptedMessage);
     const payload = {
       message: encryptedMessage
     };
-    fetch(`${pusherConfig.restServer}/users/${this.props.name}/messages`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
-    });
+    fetch(
+      `${pusherConfig.restServer}/users/${
+        this.props.name
+      }/messages/${chatRoom}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      }
+    );
   };
 
   render() {
     const { messages, loading, users } = this.state;
-    console.log("RENDER: " + users);
     return (
       <View style={styles.container}>
         {loading ? (

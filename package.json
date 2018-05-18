@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "apsl-react-native-button": "^3.1.1",
+    "ceasarsshift": "https://github.com/hannesmcman/caesarsShift.git",
     "global": "^4.3.2",
     "lodash": "^4.17.10",
     "native-base": "^2.4.4",
